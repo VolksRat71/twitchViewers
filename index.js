@@ -1,13 +1,15 @@
-const open = require("open");
-const chromeProfileList = require('chrome-profile-list');
-const endPoint = "http://twitch.com/dily_dali"
+require("dotenv").config();
+const { exec } = require("node:child_process");
+const chromeProfileList = require("chrome-profile-list");
+const endPoint = process.env.ENDPOINT;
+const cliOpeningProcess = process.env.CLIOPENINGPROCESS;
 
-// can be chrome, firefox, or edge
-const name = open.apps.chrome
-
+exec('"/path/to/test file/test.sh" arg1 arg2');
 chromeProfileList().forEach(({ profileDirName }, i) => {
-    setTimeout(() => {
-        console.log(`Opening ${profileDirName}`)
-        open(endPoint, { app: { name, arguments: [`--profile-directory="${profileDirName}"`] } })
-    }, i * 1000)
-})
+  setTimeout(() => {
+    const command = `${cliOpeningProcess} ${endPoint} --args --profile-directory="${profileDirName}"`;
+
+    console.log(`Running: ${command}`);
+    exec(command);
+  }, i * 1000);
+});
